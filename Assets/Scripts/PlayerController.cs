@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerController : MonoBehaviour {
     public float speed;
 
     private Vector2 _moveVelocity;
@@ -9,14 +10,16 @@ public class PlayerMovement : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         _rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody2D.freezeRotation = true;
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void Update() {
         _moveVelocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        
     }
 
     void FixedUpdate() {
-        _rigidbody2D.AddForce(_moveVelocity * speed * Time.fixedDeltaTime);
+        Debug.Log(_moveVelocity*speed);
+        _rigidbody2D.MovePosition(_rigidbody2D.position + _moveVelocity * speed * Time.fixedDeltaTime);
     }
 }
