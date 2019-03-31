@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingAI : MonoBehaviour
+public class MovingAI : BaseDestructubleObject
 {
     public Vector3 InitialMoveVector;
     public float Speed;
@@ -41,5 +41,10 @@ public class MovingAI : MonoBehaviour
                 transform.position = CurrentPosition;
             }
         }
+    }
+
+    protected override void NotifyHit() 
+    {
+
     }
 }
