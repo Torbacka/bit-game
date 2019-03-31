@@ -9,6 +9,8 @@ public class MovingAI : BaseDestructubleObject
 
     private Vector3 CurrentMoveVector;
     private BoxCollider2D boxCollider;
+    private int direction = 1;
+    private int prevDirection = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -28,19 +30,30 @@ public class MovingAI : BaseDestructubleObject
     private void Move(Vector3 InImpulse)
     {
         Vector3 CurrentPosition = transform.position;
-        transform.position = CurrentPosition + InImpulse;
 
         ContactFilter2D ContactFilter = new ContactFilter2D();
         Collider2D[] Colliders = new Collider2D[1];
         boxCollider.OverlapCollider(ContactFilter, Colliders);
+        
+        int multiplier = direction;
 
         if (Colliders[0] != null && Colliders[0].gameObject != null)
-        {
+        {            
+            direction = direction * -1;
+
+            if (prevDirection != direction)
+            {
+                multiplier = multiplier * -1;
+            }
+            
             if (Colliders[0].gameObject.CompareTag("StaticObj"))
             {
-                transform.position = CurrentPosition;
+                //transform.position = CurrentPosition;
             }
         }
+        
+        transform.position = CurrentPosition + multiplier * InImpulse;
+        prevDirection = direction;
     }
 
     protected override void NotifyHit() 
